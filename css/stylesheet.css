@@ -1,0 +1,26 @@
+html, body{
+	width:100%;
+	height:100%;
+	text-align:center;
+}
+  
+table{
+	border-collapse:collapse;
+}
+
+td{
+    border: 2px solid #333;
+    height: 70px;
+    width: 70px;
+    text-align:center;
+    vertical-align:middle;
+    font-family:"Comic Sans MS";
+    font-size: 70px;
+	background-color:grey;
+    cursor:pointer;
+}
+
+.black{
+	background-color: black;
+}
+
