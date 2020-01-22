@@ -1,15 +1,12 @@
-/*
- Cell  sum of live cells   new Cell
-   1   0,1             ->  0  # Lonely
-   1   4,5,6,7,8       ->  0  # Overcrowded
-   1   2,3             ->  1  # Lives
-   0   3               ->  1  # It takes three to give birth!
-   0   0,1,2,4,5,6,7,8 ->  0  # Barren
-*/
-let square = {}
 let grid = []
+let current_gen = 0
+let nb_rows = 0
+let nb_cols = 0
 
-function init_board(row, col){
+function init_board(row, col, alive){
+		let square = {}
+		nb_rows = row
+		nb_cols = col
 		board = $('<table>');
 		for (let i = 1; i <= row;i++){
 				let tr = $('<tr>');
@@ -19,69 +16,98 @@ function init_board(row, col){
 						$('<td>')
 								.attr('id', tdId)
 								.appendTo(tr)
-						//BY DEFAULT, ALL SQUARES ARE DEAD
-						square = {row: i,
-						     	  col: j,
-								  class: null,
-								  clicked: false}
+						square = {row: i, col: j, type: false}
 						grid.push(square);
 				}
 				$(board).append(tr);
 		}
 		$('#board').html(board);
+		// init the board with the nb of living cells in the first gen
+		is_alive(alive)
+		new_gen();
 }
 
-// function start(){}
-// goes through the board to check which square were clicked / are alive
-// and determines if they can still live
-
-function check_around(square){
-		if(square_exists){
-				
+function is_alive(alive){
+		while (alive > 0){
+				let random = Math.floor(Math.random() * grid.length)
+				if (grid[random].type === false){
+						grid[random].type = true;
+						$('td#' + grid[random].row + '-' + grid[random].col).addClass('black')
+						alive--
+				}
 		}
 }
 
-function new_gen(){
-		let generation = 0;
-		generation += 1;
+// WE START FROM A GIVEN SQUARE WITH ROW,COL && WE CHECK THE SQUARES AROUND ONE SQ 
+function find_neighbors (){
+		let n = 0
+		let neighbors = 0;
+		while (n < grid.length){
+				let row = grid[n].row
+				let col = grid[n].col
+				// check up, down, right, left + diagonals
+				let dirs = [ [0,1], [0,-1], [1,0], [-1,0] [1,1], [-1,-1], [1,-1], [-1,1] ] 
+				// check in 8 directions
+				for (let dir of dirs){
+						//check neighbors with range 1
+						for (let i=0; i<=1; i++){
+								let checked_row = grid[n].row + i*dirs[0];
+								let checked_col = grid[n].col + i*dirs[1];
+								let checked_type = grid[n].type;
+								if (is_inside(checked_row, checked_col) && checked_type === true){
+										neighbors++
+								}else{
+										break;
+								}
+						}
+				}
+				n++
+		}
+		return neighbors;
 }
 
-// function check_click() {
-// 		let position = null
-// 		let clicked = false
-// 		for (let i=0; i<=this.nb_rows && !clicked; i++){
-// 				for (let j=0; j<=this.nb_cols && !clicked; j++) {
-// 						if (this.model[i][j].clicked === true){
-// 								clicked = true;
-// 								position = {row: i, col: j};
-// 						}
-// 				}
-// 		}
-// 		return position	
-// }
-//function square_exists(square){
-//		//if (row < 1 || row > grid.row
-//		// 		|| col < 1 || col > grid.col){
-//		// 			return false
-//		// 		}
-//		return true
-//}
+function is_inside(row, col){
+		return !(row < 1 || row > nb_rows || col < 1 || col > nb_cols)
+}
+
+ function born_or_survive(neighbors){
+ 		if (neighbors == 2 || neighbors == 3
+ 				&& grid[square].type === true){
+ 				grid[square].type === true;
+				alive++;
+ 		} 
+ 		else if(neighbors == 3 && grid[square].type === false){
+ 				grid[square].type === true;
+				alive++;
+ 		}
+ 		else if(neighbors < 2 || neighbors > 3 && grid[square].type === true){
+ 				grid[square].type === false;
+				alive--;
+ 		}
+}
+
+function new_gen(){
+		let current_gen = 0;
+		current_gen++ 
+		find_neighbors();
+		born_or_survive();
+		//init_board();
+}
+
+let delay = setInterval(function (event) {
+ 						new_gen()
+ 					//	if (alive == 0) {
+ 					//			clearInterval(delay)
+ 					//	}
+}, 50, this)
+
 
 $(document).ready(function(){
 		//FIRST, YOU INITALIZE THE BOARD WITH THE NB OF ROWS AND COLS THAT YOU WANT
 		$('#init').on('click', function(){
-				row = parseInt(prompt('how many rows do you want?'))
-				col = parseInt(prompt('how many cols do you want?'))
-				init_board(row, col);
+				let row = parseInt(prompt('how many rows do you want?'))
+				let	col = parseInt(prompt('how many cols do you want?'))
+				let	alive = parseInt(prompt('how many living cells do you want?'))
+				init_board(row, col, alive);
 		});
-		//THEN YOU DETERMINE WITH A CLICK WHERE YOU WILL PLACE LIVING SQUARES
-		$('td').on('click', function(event){
-				//when you click on a square, it becomes black / clicked
-				$(event.target).addClass('clicked black')
-				console.log(event.target)
-		});
-		//FINALLY, YOU START THE GAME OF LIFE
-		// $('button').on('click', function(){
-		// 		start(row, col)
-		// });
 });
