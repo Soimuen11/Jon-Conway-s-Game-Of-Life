@@ -82,6 +82,6 @@ $(document).ready(function(){
 				let delay = setInterval(function (event){
 						new_grid = next_gen(new_grid)
 						draw(new_grid)
-				}, 200, this)
+				}, 100, this)
 		});
 });
