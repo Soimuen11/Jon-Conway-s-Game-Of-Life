@@ -6,6 +6,11 @@ html, body{
   
 table{
 	border-collapse:collapse;
+	margin:auto;
+}
+
+button{
+		margin:auto;
 }
 
 td{
