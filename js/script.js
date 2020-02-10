@@ -94,16 +94,15 @@ $(document).ready(function(){
 										$(this).removeClass('black');
 										man_alive++
 								}else if (man_alive > 0) {
-												$(this).addClass('black');
-												man_alive--
+										$(this).addClass('black');
+										man_alive--
 								}
 				});
-				$('#manual_start').on('click', function(grid){
+				$('#manual_start').on('click', function(){
 						for (let i=0; i < grid.length; i++){
-								for (let j=0; j < grid[i].length; i++){
-										if ($('td#' + `${i}`-`${j}`).hasClass('black')
-														&& grid[i][j] === false){
-														grid[i][j] === true;								
+								for (let j=0; j < grid[i].length; j++){
+										if ($('td#' + `${i}-${j}`).hasClass('black')) {
+														grid[i][j] = true;								
 												}
 								}
 						}
