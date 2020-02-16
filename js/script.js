@@ -1,6 +1,6 @@
 'use strict'
 
-function create_grid(rows, cols, alive, man_alive){
+function create_grid(rows, cols, alive){
 		let grid = new Array()
 		for (let i = 0; i < rows;i++){
 				grid[i] = new Array()
@@ -8,7 +8,7 @@ function create_grid(rows, cols, alive, man_alive){
 						grid[i][j] = false
 				}
 		}
-		while (alive > 0 && man_alive === false) {
+		while (alive > 0) {
 				//r for random
 				let i_r = Math.floor(Math.random() * rows)
 				let j_r = Math.floor(Math.random() * cols);
@@ -71,46 +71,39 @@ function born_or_survive(alive, neighbors){
 }
 
 $(document).ready(function(){
-		$('#random_init').on('click', function(){
-				let rows = parseInt(prompt('how many rows do you want?'))
-				let	cols = parseInt(prompt('how many cols do you want?'))
-				let	alive = parseInt(prompt('how many living cells do you want?'))
-				let grid = create_grid(rows, cols, alive, false);
-				draw(grid)
-				let new_grid = next_gen(grid)
-				let delay = setInterval(function (event){
-						new_grid = next_gen(new_grid)
-						draw(new_grid)
-				}, 100, this)
-		});
-		$('#manual_init').on('click', function(){
-				let rows = parseInt(prompt('how many rows do you want?'))
-				let	cols = parseInt(prompt('how many cols do you want?'))
-				let man_alive = parseInt(prompt("How many cells do you wanna manually place?"))
-				let grid = create_grid(rows, cols, 0, man_alive)
-				draw(grid)
-				$('td').on('click', function(event){
+				$('#draw').on('click', function(){
+						let counter = 0;
+						let row = parseInt($('#row').val())
+						let col = parseInt($('#col').val())
+						let alive = parseInt($('#alive').val())
+						let grid = create_grid(row, col, alive);
+						draw(grid)
+						$('td').on('click', function(event){
 								if ($(this).hasClass('black')){
 										$(this).removeClass('black');
-										man_alive++
-								}else if (man_alive > 0) {
+										alive++
+								}else if (alive > 0) {
 										$(this).addClass('black');
-										man_alive--
+										alive--
 								}
-				});
-				$('#manual_start').on('click', function(){
-						for (let i=0; i < grid.length; i++){
-								for (let j=0; j < grid[i].length; j++){
-										if ($('td#' + `${i}-${j}`).hasClass('black')) {
-														grid[i][j] = true;								
-												}
+						});
+						$('#start').on('click', function(){
+								for (let i=0; i < grid.length; i++){
+										for (let j=0; j < grid[i].length; j++){
+												grid[i][j] = $('td#' + `${i}-${j}`).hasClass('black')
+										}
 								}
-						}
-						let new_grid = next_gen(grid)
-						let delay = setInterval(function (event){
-								new_grid = next_gen(new_grid)
+								let new_grid = next_gen(grid)
 								draw(new_grid)
-						}, 100, this)
+								let delay = setInterval(function (event){
+										new_grid = next_gen(new_grid)
+										draw(new_grid)
+										counter++
+										$('#counter').html('Generation: ' + counter)
+								}, 100, this)
+								$('#stop').on('click', function(){
+										clearInterval(delay);
+								});
+						});
 				});
-		});
 });
