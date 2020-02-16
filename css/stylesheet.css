@@ -1,31 +1,59 @@
-html, body{
-	width:100%;
-	height:100%;
+html {
+    position: relative;
+    height: 100%;
 	text-align:center;
 }
   
+#board{
+}
+
 table{
 	border-collapse:collapse;
 	margin:auto;
+    min-width: 400px;
+	min-height: 400px;
+	max-width: 700px;
+    max-height: 700px;
 }
 
 button{
+		background-color: black;
+		color: grey;
 		margin:auto;
 }
 
 td{
-    border: 2px solid #333;
-    height: 30px;
-    width: 30px;
-    text-align:center;
-    vertical-align:middle;
-    font-family:"Comic Sans MS";
-    font-size: 70px;
-	background-color:grey;
-    cursor:pointer;
+		border: 2px solid white;
+		height: auto;
+		width: auto;
+		text-align:center;
+		vertical-align:middle;
+		font-family:"Comic Sans MS";
+		font-size: 70px;
+		background-color:grey;
+		cursor:pointer;
 }
 
 .black{
 	background-color: black;
 }
 
+li{
+		list-style: none;
+		display: inline-block;
+		padding: 5px;
+}
+
+ul{
+		display: inline-block;
+}
+
+textarea{
+		resize: none;
+		overflow: auto;
+		outline: blue;
+}
+
+#separator{
+		height: 10px;
+}

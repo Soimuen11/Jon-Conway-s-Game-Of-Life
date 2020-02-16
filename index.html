@@ -6,12 +6,25 @@
 				<link rel="stylesheet" href="./css/stylesheet.css">
 		</head>
 		<body>
-
-				<button id='random_init'>Random Init</button>
-				<button id='manual_init'>Manual Init</button>
-				<button id='manual_start'>Manual start</button>
+				<div id="options">
+						<h1>Conway's Game of Life</h1>
+						<p>Don't forget to tell me how you want to build your board</p>
+						<p>Then click on 'draw'</p>
+						<p></p>
+						<ul>
+								<li >Cols: <textarea id='col' onclick="this.focus();this.select()" placeholder='10' rows='1' cols='2'></textarea></li>
+								<li >Rows: <textarea id='row' onclick="this.focus();this.select()" placeholder='10' rows='1' cols='2'></textarea></li>
+								<li>Live cells: <textarea id='alive' onclick="this.focus();this.select()" placeholder='30' rows='1' cols='2'></textarea></li>
+						</ul>
+						<div id="counter"> Generation: 0</div>
+				</div>
+				<div id="separator"></div>
+				<button id='draw'>Draw</button>
+				<button id='start'>Start</button>
+				<button id='stop'>Stop</button>
+				<div id="separator"></div>
 				<div id='board'></div>	
 				<script src='https://code.jquery.com/jquery-3.4.1.js'></script>
 				<script src='./js/script.js'></script>
 		</body>
-</html>
+ </html>
