@@ -44,6 +44,38 @@ function is_inside(i, j, rows, cols) {
 		return i >= 0 && i < rows && j >= 0 && j < cols
 }
 
+function is_alive(grid, i, j) {
+		if (grid[i] != undefined && is_inside(i, j, grid.length, grid[i].length)) {
+				return grid[i][j]
+		} else {
+				if (i === -1) {
+						if (j === -1) {
+								return grid[grid.length - 1][(grid[grid.length - 1].length - 1)]
+						} else if (j === grid[grid.length - 1].length) {
+								return grid[grid.length - 1][0]
+						} else {
+								return grid[grid.length - 1][j]
+						}
+				} else if (i === grid.length) {
+						if (j === -1) {
+								return grid[0][grid[0].length - 1]
+						} else if (j === grid[0].length) {
+								return grid[0][0]
+						} else {
+								return grid[0][j]
+						}
+				} else {
+						if (j === -1) {
+								return grid[i][(grid[i].length - 1)]
+						} else if (j === grid[i].length) {
+								return grid[i][0]
+						} else {
+								return grid[i][j]
+						}
+				}
+		}
+}
+
 function next_gen(grid){
 		let new_grid = Array()
 		for (let i = 0; i < grid.length; i++){
@@ -52,7 +84,7 @@ function next_gen(grid){
 						let dirs = [ [0,1], [0,-1], [1,0], [-1,0], [1,1], [-1,-1], [1,-1], [-1,1] ] 
 						let neighbors = 0;
 						for (let dir of dirs){
-								if (is_inside(i + dir[0], j + dir[1], grid.length, grid[i].length) && grid[i + dir[0]][j + dir[1]] === true) {
+								if (is_alive(grid, i + dir[0], j + dir[1])) {
 										neighbors++
 								}
 						}
