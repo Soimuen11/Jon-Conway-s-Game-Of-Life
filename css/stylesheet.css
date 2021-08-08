@@ -2,6 +2,8 @@ html {
     position: relative;
     height: 100%;
 	text-align:center;
+	background-color: #2C3E50; 
+	color: white;
 }
   
 #board{
@@ -18,7 +20,7 @@ table{
 
 button{
 		background-color: black;
-		color: grey;
+		color: white;
 		margin:auto;
 }
 
